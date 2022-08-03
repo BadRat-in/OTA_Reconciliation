@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static './Css/home.css' %}">
+    <title>Compare Data Sheet</title>
+</head>
+
+<body>
+    <div class="loader" id="loader">
+        <h3>Please wait, while we are processing your files.</h1>
+    </div>
+    <span id="msg" class="msg"></span>
+    <form action="uploadfile/" method="post" id="form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2>Please select file</h2>
+        <table>
+            <tr>
+                <td>
+                    <label for="file1">Select OTA File</label>
+                </td>
+                <td>
+                    <input type="file" onchange="checkFileExtention(this)" name="file1" id="file1">
+                </td>
+                <td>
+                    <input type="radio" name="ota1" value="booking" id="booking">
+                    <label for="booking">Booking.com</label>
+                </td>
+                <td>
+                    <input type="radio" name="ota1" id="expedia" value="expedia">
+                    <label for="expedia">Expedia.com</label>
+                </td>
+                <td>
+                    <input type="radio" name="ota1" id="siteminder" value="siteminder">
+                    <label for="siteminder">Siteminder.com</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="file2">Select OTA File</label>
+                </td>
+                <td>
+                    <input type="file" onchange="checkFileExtention(this)" name="file2" id="file2">
+                </td>
+                <td>
+                    <input type="radio" name="ota2" value="booking" id="booking2">
+                    <label for="booking2">Booking.com</label>
+                </td>
+                <td>
+                    <input type="radio" name="ota2" id="expedia2" value="expedia">
+                    <label for="expedia2">Expedia.com</label>
+                </td>
+                <td>
+                    <input type="radio" name="ota2" id="siteminder2" value="siteminder">
+                    <label for="siteminder2">Siteminder.com</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="file3">Select OTA File</label>
+                </td>
+                <td>
+                    <input type="file" onchange="checkFileExtention(this)" name="file3" id="file3">
+                </td>
+                <td>
+                    <input type="radio" name="ota3" value="booking" id="booking3">
+                    <label for="booking3">Booking.com</label>
+                </td>
+                <td class="2">
+                    <input type="radio" name="ota3" id="expedia3" value="expedia">
+                    <label for="expedia3">Expedia.com</label>
+                </td>
+                <td colspan="2">
+                    <input type="radio" name="ota3" id="siteminder3" value="siteminder">
+                    <label for="siteminder3">Siteminder.com</label>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="file4">Select MEWS File</label></td>
+                <td>
+                    <input type="file" onchange="checkFileExtention(this)" name="file4" id="file4">
+                </td>
+            </tr>
+        </table>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+<script src="{% static './Js/uploadFile.js' %}"></script>
+
+</html>
