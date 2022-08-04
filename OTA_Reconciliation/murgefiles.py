@@ -20,8 +20,6 @@ def generateHash(arrival, departure, guest: str, totalAmount):
 
 
 # merging booking and mews df based on the Guest name, arrival, departure
-
-
 def booking_mews_merge(mews: str, booking: str):
 
     mews_booking_df = readFilesForBooking(mews, booking)
@@ -51,12 +49,17 @@ def booking_mews_merge(mews: str, booking: str):
 
     # removing the rows with has diffrence value -1 to 1
     merged['Difference'] = merged['Difference'].apply(
-        lambda x: 0 if (-1 < x < 1) else x)
+        lambda x: 0 if (-1 <= x <= 1) else x)
     
     merged.drop_duplicates(inplace=True)
     rowWithZero = merged[merged['Difference'] == 0]
     merged.drop(rowWithZero.index, inplace=True)
     merged.reset_index(inplace=True)
+    merged['_merge'] = list(map(lambda x: "Found in both Sheet" if x ==
+                            'both' else 'Only found in Booking.com sheet', merged['_merge']))
+    merged.rename({'_merge': 'Matched Side'}, axis=1, inplace=True)
+    merged.index.rename('Index', inplace=True)
+    merged.drop(columns=['index'], inplace=True)
 
     # generating the filename
     filename = datetime.strftime(
@@ -92,12 +95,17 @@ def expedia_mews_merge(mews: str, expedia: str):
 
     # removing the rows with has diffrence value -1 to 1
     merged['Difference'] = merged['Difference'].apply(
-        lambda x: 0 if (-1 < x < 1) else x)
+        lambda x: 0 if (-1 <= x <= 1) else x)
 
     merged.drop_duplicates(inplace=True)
     rowWithZero = merged[merged['Difference'] == 0]
     merged.drop(rowWithZero.index, inplace=True)
     merged.reset_index(inplace=True)
+    merged['_merge'] = list(map(lambda x: "Found in both Sheet" if x ==
+                            'both' else 'Only found in Expeida.com sheet', merged['_merge']))
+    merged.rename({'_merge': 'Matched Side'}, axis=1, inplace=True)
+    merged.index.rename('Index', inplace=True)
+    merged.drop(columns=['index'], inplace=True)
 
     # generating the filename
     filename = datetime.strftime(
@@ -136,15 +144,16 @@ def sitminder_mews_merge(mews: str, sitminder: str):
 
     # removing the rows with has diffrence value -1 to 1
     merged['Difference'] = merged['Difference'].apply(
-        lambda x: 0 if (-1 < x < 1) else x)
+        lambda x: 0 if (-1 <= x <= 1) else x)
     
-    merged.drop_duplicates(inplace=True)
     rowWithZero = merged[merged['Difference'] == 0]
     merged.drop(rowWithZero.index, inplace=True)
-    merged.reset_index(inplace=True)
+    merged.index.rename('Index', inplace=True)
+    merged.drop(columns=['index'], inplace=True)
 
     # remove duplicates
     merged.drop_duplicates(inplace=True)
+    merged.reset_index(inplace=True)
 
     filename = datetime.strftime(
         datetime.now(), '%Y-%m-%d-%H-%M-%S') + '_siteminder.xlsx'
