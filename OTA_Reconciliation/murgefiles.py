@@ -136,11 +136,12 @@ def sitminder_mews_merge(mews: str, sitminder: str):
     merge2 = pd.merge(mews_sitminder_df[0][['Arrival', 'Departure', 'Email', 'Total amount', 'Identifier']], mews_sitminder_df[1][[
                       'Arrival', 'Departure', 'Email', 'Total amount']], on=['Email', 'Arrival', 'Departure'], how='right', suffixes=('_mews', '_siteminder'))
 
-    merged = pd.merge(merge1, merge2)
-
     # calculating the difference between the mews & sitminder total amount
-    merged['Difference'] = merged['Total amount_mews'] - \
-        merged['Total amount_siteminder']
+    merge1['Difference'] = merge1['Total amount_mews'] - merge1['Total amount_siteminder']
+    merge2['Difference'] = merge2['Total amount_mews'] - merge2['Total amount_siteminder']
+
+
+    merged = pd.merge(merge1, merge2, on=['Arrival', 'Departure', 'Total amount_mews', 'Total amount_siteminder', 'Difference', 'Identifier'], how='outer')
 
     # removing the rows with has diffrence value -1 to 1
     merged['Difference'] = merged['Difference'].apply(
