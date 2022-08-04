@@ -139,7 +139,8 @@ def sitminder_mews_merge(mews: str, sitminder: str):
     # calculating the difference between the mews & sitminder total amount
     merge1['Difference'] = merge1['Total amount_mews'] - merge1['Total amount_siteminder']
     merge2['Difference'] = merge2['Total amount_mews'] - merge2['Total amount_siteminder']
-
+    merge1.index.rename('Index', inplace=True)
+    merge2.index.rename('Index', inplace=True)
 
     merged = pd.merge(merge1, merge2, on=['Arrival', 'Departure', 'Total amount_mews', 'Total amount_siteminder', 'Difference', 'Identifier'], how='outer')
 
@@ -149,8 +150,7 @@ def sitminder_mews_merge(mews: str, sitminder: str):
     
     rowWithZero = merged[merged['Difference'] == 0]
     merged.drop(rowWithZero.index, inplace=True)
-    merged.index.rename('Index', inplace=True)
-    merged.drop(columns=['index'], inplace=True)
+    # merged.drop(columns=['index'], inplace=True)
 
     # remove duplicates
     merged.drop_duplicates(inplace=True)
